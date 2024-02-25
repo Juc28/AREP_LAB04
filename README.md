@@ -47,7 +47,28 @@ Durante el desarrollo del prototipo, se utilizará la anotación @RequestMapping
   ![imagen](https://github.com/Juc28/AREP_LAB04/assets/118181224/8d4af977-5fa3-48d7-951f-6425faa75420)
 
 # Arquitectura
+El servidor utiliza la anotación @Component para identificar clases como componentes que gestionará. La anotación @GetMapping se utiliza para vincular métodos específicos dentro de estos componentes a solicitudes GET para rutas específicas. El método inversionOfControl recorre todas las clases, buscando las que están anotadas con @Component. Para cada clase, busca métodos anotados con @GetMapping y los almacena en un mapa llamado services. La clave del mapa es la ruta especificada en la anotación, y el valor es el método correspondiente.
 
+* El servidor HTTP realiza lo siguiente:
+
+  1. Ejecuta la inversión de control (IoC) para registrar componentes y servicios.
+  2. Crea un socket de servidor para escuchar conexiones entrantes en el puerto 35000.
+  3. Entra en un bucle para aceptar continuamente conexiones de clientes, procesar solicitudes y enviar respuestas.
+
+* El procesamiento de las solicitudes del cliente se realiza de la siguiente manera:
+
+  1. Lee la solicitud del cliente desde el flujo de entrada.
+  2. Extrae el verbo (por ejemplo, GET) y la ruta (por ejemplo, /hola) de la línea de solicitud.
+  3. Recibe el método de servicio correspondiente del mapa services basado en la ruta.
+  4. Si se encuentra un servicio coincidente, lo invoca y envía la respuesta al cliente. De lo contrario, envía una respuesta para la página de inicio.
+  5. Cierra el socket del cliente.
+* Puede manejar los siguientes recursos:
+  
+    **/hola**: Devuelve una simple respuesta de texto.
+  
+    **/imagen:** Lee un archivo de imagen PNG de una ubicación específica, lo convierte a codificación Base64 y lo envía como una respuesta HTML con la imagen mostrada.
+  
+    **/html:** Lee un archivo HTML de una ubicación específica y lo envía como una respuesta HTML.
 
 
 # Pruebas 
